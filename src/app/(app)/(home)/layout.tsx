@@ -3,9 +3,13 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 import { getQueryClient, trpc } from "@/trpc/server";
 
-import { Footer } from "./footer";
-import { Navbar } from "./navbar";
-import { SearchFilters, SearchfiltersSkeleton } from "./search-filters";
+import { Footer } from "@/modules/home/ui/components/footer";
+import { Navbar } from "@/modules/home/ui/components/navbar";
+import {
+  SearchFilters,
+  SearchfiltersSkeleton,
+} from "@/modules/home/ui/components/search-filters";
+
 
 interface Props {
   children: Readonly<React.ReactNode>;
