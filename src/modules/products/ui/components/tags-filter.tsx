@@ -19,7 +19,7 @@ export const TagsFilter = ({ value, onChange }: TagsFilterProps) => {
         },
         {
           getNextPageParam: (lastPage) => {
-            return lastPage.docs.length > 0 ? lastPage.nextPage : undefined;
+            return lastPage.hasNextPage ? lastPage.nextPage : undefined;
           },
         }
       )
