@@ -25,8 +25,6 @@ export const TagsFilter = ({ value, onChange }: TagsFilterProps) => {
       )
     );
 
-  console.log("TAGS RESPONSE BODY", data);
-
   const onClick = (tag: string) => {
     if (value?.includes(tag)) {
       onChange(value?.filter((t) => t !== tag) || []);
