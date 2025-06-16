@@ -135,27 +135,55 @@ const categories = [
       { name: "Macro", slug: "macro" },
     ],
   },
-]
+];
 
 const seed = async () => {
   const payload = await getPayload({ config });
 
+  // Create super admin tenant
+  const adminTenant = await payload.create({
+    collection: "tenants",
+    data: {
+      name: "admin",
+      slug: "admin",
+      stripeAccountId: "admin",
+    },
+  });
+
+  // Create super admin user
+  await payload.create({
+    collection: "users",
+    data: {
+      email: "admin@demo.com",
+      password: "demo",
+      roles: ["super-admin"],
+      username: "admin",
+      tenants: [
+        {
+          tenant: adminTenant.id,
+        },
+      ],
+    },
+  });
+
   // First, check if categories already exist
   const existingCategories = await payload.find({
     collection: "categories",
-    limit: 1
+    limit: 1,
   });
 
   // If categories already exist, ask for confirmation to overwrite
   if (existingCategories.docs.length > 0) {
     console.log("Categories already exist in the database.");
-    console.log("To reseed, first clear the database by running a proper migration.");
+    console.log(
+      "To reseed, first clear the database by running a proper migration."
+    );
     console.log("Exiting without making changes.");
     return;
   }
 
   console.log("Seeding categories...");
-  
+
   for (const category of categories) {
     try {
       const parentCategory = await payload.create({
@@ -164,8 +192,8 @@ const seed = async () => {
           name: category.name,
           slug: category.slug,
           color: category.color,
-          parent: null
-        }
+          parent: null,
+        },
       });
 
       console.log(`Created category: ${category.name}`);
@@ -177,7 +205,7 @@ const seed = async () => {
             name: subcategory.name,
             slug: subcategory.slug,
             parent: parentCategory.id,
-          }
+          },
         });
         console.log(`  - Created subcategory: ${subcategory.name}`);
       }
@@ -185,9 +213,9 @@ const seed = async () => {
       console.error(`Error creating category ${category.name}:`, error);
     }
   }
-  
+
   console.log("Seeding completed successfully!");
-}
+};
 
 await seed();
 

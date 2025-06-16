@@ -2,9 +2,9 @@ import { z } from "zod";
 
 export const registerSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string().min(4, "Password must be at least 4 characters"),
   username: z
-    .string()
+    .string() 
     .min(3, "Username must be at least 3 characters")
     .max(63, "Username must be less than 63 characters")
     .regex(
@@ -20,5 +20,5 @@ export const registerSchema = z.object({
 
 export const loginSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string().min(4, "Password must be at least 4 characters"),
 });
