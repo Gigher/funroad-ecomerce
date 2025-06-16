@@ -17,7 +17,7 @@ export const authRouter = createTRPCRouter({
   register: baseProcedure
     .input(registerSchema)
     .mutation(async ({ input, ctx }) => {
-      const existingdata = await ctx.payload.find({
+      const existingData = await ctx.payload.find({
         collection: "users",
         limit: 1,
         where: {
@@ -27,7 +27,7 @@ export const authRouter = createTRPCRouter({
         },
       });
 
-      const existingUser = existingdata.docs[0];
+      const existingUser = existingData.docs[0];
 
       if (existingUser) {
         throw new TRPCError({
@@ -36,12 +36,26 @@ export const authRouter = createTRPCRouter({
         });
       }
 
+      const tenant = await ctx.payload.create({
+        collection: "tenants",
+        data: {
+          name: input.username,
+          slug: input.username,
+          stripeAccountId: "test",
+        }
+      })
+
       await ctx.payload.create({
         collection: "users",
         data: {
           email: input.email,
           username: input.username,
           password: input.password, // This will be hashed
+          tenants: [
+            {
+              tenant: tenant.id
+            }
+          ]
         },
       });
 
