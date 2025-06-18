@@ -5,6 +5,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Fragment } from "react";
+import dynamic from "next/dynamic";
 import { LinkIcon, StarIcon } from "lucide-react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
@@ -18,6 +19,20 @@ interface ProductViewProps {
   productId: string;
   tenantSlug: string;
 }
+
+const CartButton = dynamic(
+  () => import("../components/cart-button").then((mod) => mod.CartButton),
+  {
+    ssr: false,
+    loading: () => (
+      <Button
+        variant="elevated"
+        disabled
+        className="flex-1 bg-pink-400"
+      ></Button>
+    ),
+  }
+);
 
 export const ProductView = ({ productId, tenantSlug }: ProductViewProps) => {
   const trpc = useTRPC();
@@ -101,12 +116,7 @@ export const ProductView = ({ productId, tenantSlug }: ProductViewProps) => {
             <div className="border-t lg:border-t-0 lg:border-l h-full">
               <div className="flex flex-col gap-4 p-6 border-b">
                 <div className="flex flex-row items-center gap-2">
-                  <Button
-                   variant="elevated"
-                   className="flex-1 bg-pink-400"
-                  >
-                    Add to cart
-                  </Button>
+                  <CartButton productId={productId} tenantSlug={tenantSlug} />
                   <Button
                     className="size-12"
                     variant="elevated"
@@ -120,8 +130,9 @@ export const ProductView = ({ productId, tenantSlug }: ProductViewProps) => {
                 <p className="text-center font-medium">
                   {data.refundPolicy === "no-refunds"
                     ? "No refunds"
-                    : `${data.refundPolicy} money back guarantee`
-                  }
+                    : data.refundPolicy === undefined
+                      ? "Return policy not specified"
+                      : `${data.refundPolicy} money back guarantee`}
                 </p>
               </div>
 
@@ -134,19 +145,14 @@ export const ProductView = ({ productId, tenantSlug }: ProductViewProps) => {
                     <p className="text-base">{5} ratings</p>
                   </div>
                 </div>
-                <div
-                  className="grid grid-cols-[auto_1fr_auto] gap-3 mt-3"
-                >
+                <div className="grid grid-cols-[auto_1fr_auto] gap-3 mt-3">
                   {[5, 4, 3, 2, 1].map((stars) => (
                     <Fragment key={stars}>
-                      <div className="font-medium">{stars} {stars === 1 ? "star" : "stars"}</div>
-                      <Progress 
-                        value={0}
-                        className="h-[1lh]"
-                      />
                       <div className="font-medium">
-                        {0}%
+                        {stars} {stars === 1 ? "star" : "stars"}
                       </div>
+                      <Progress value={0} className="h-[1lh]" />
+                      <div className="font-medium">{0}%</div>
                     </Fragment>
                   ))}
                 </div>
