@@ -151,8 +151,8 @@ export const ProductView = ({ productId, tenantSlug }: ProductViewProps) => {
                       <div className="font-medium">
                         {stars} {stars === 1 ? "star" : "stars"}
                       </div>
-                      <Progress value={0} className="h-[1lh]" />
-                      <div className="font-medium">{0}%</div>
+                      <Progress value={21} className="h-[1lh]" />
+                      <div className="font-medium">{21}%</div>
                     </Fragment>
                   ))}
                 </div>
