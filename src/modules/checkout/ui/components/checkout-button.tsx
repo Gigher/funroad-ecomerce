@@ -15,7 +15,7 @@ interface CheckoutButtonProps {
 export const CheckoutButton = ({
   className,
   hideIfEmpty,
-  tenantSlug
+  tenantSlug,
 }: CheckoutButtonProps) => {
   const { totalItems } = useCart(tenantSlug);
 
@@ -23,9 +23,9 @@ export const CheckoutButton = ({
 
   return (
     <Button variant="elevated" asChild className={cn("bg-white", className)}>
-      <Link href={`/${generateTenantUrl(tenantSlug)}/checkout`}>
+      <Link href={`${generateTenantUrl(tenantSlug)}/checkout`}>
         <ShoppingCartIcon /> {totalItems > 0 ? totalItems : ""}
       </Link>
     </Button>
-  )
-}
+  );
+};
