@@ -8,14 +8,14 @@ const defaultTenantArrayField = tenantsArrayField({
   arrayFieldAccess: {
     read: () => true,
     create: () => true,
-    update: () => true
+    update: () => true,
   },
   tenantFieldAccess: {
     read: () => true,
     create: () => true,
-    update: () => true
+    update: () => true,
   },
-})
+});
 
 export const Users: CollectionConfig = {
   slug: "users",
@@ -44,8 +44,8 @@ export const Users: CollectionConfig = {
       ...defaultTenantArrayField,
       admin: {
         ...(defaultTenantArrayField?.admin || {}),
-        position: "sidebar"
-      }
-    }
+        position: "sidebar",
+      },
+    },
   ],
 };
