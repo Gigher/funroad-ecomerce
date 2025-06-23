@@ -12,11 +12,12 @@ import { buildConfig } from "payload";
 import { Tags } from "./collections/Tags";
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
+import { Orders } from "./collections/Orders";
 import { Tenants } from "./collections/Tenants";
+import { Reviews } from "./collections/Reviews";
 import { Products } from "./collections/Products";
 import { Categories } from "./collections/Categories";
 import type { Config } from "./payload-types";
-import { Orders } from "./collections/Orders";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -28,7 +29,16 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Categories, Products, Tags, Tenants, Orders],
+  collections: [
+    Users,
+    Media,
+    Categories,
+    Products,
+    Tags,
+    Tenants,
+    Orders,
+    Reviews,
+  ],
   cookiePrefix: "funroad",
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
