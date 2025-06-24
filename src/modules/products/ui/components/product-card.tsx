@@ -4,8 +4,6 @@ import { StarIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { formatCurrency, generateTenantUrl } from "@/lib/utils";
 
-// TODO: Add real ratings
-
 interface ProductCardProps {
   id: string;
   name: string;
@@ -65,7 +63,9 @@ export const ProductCard = ({
             <div className="flex items-center gap-1">
               <StarIcon className="size-3.5 fill-black" />
               <p className="text-sm font-medium">
-                {reviewRating} ({reviewCount})
+                {reviewRating !== 0
+                  ? `${reviewRating} (${reviewCount})`
+                  : "No reviews"}
               </p>
             </div>
           )}
