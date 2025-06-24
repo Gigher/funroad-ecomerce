@@ -92,11 +92,11 @@ export const ProductView = ({ productId, tenantSlug }: ProductViewProps) => {
               <div className="hidden lg:flex px-6 py-4 items-center justify-center">
                 <div className="flex items-center gap-2">
                   <StarRating
-                    rating={data.reviewRating}
+                    rating={data.reviewRating ?? 0}
                     iconClassName="size-4"
                   />
                   <p className="text-base font-medium">
-                    {data.reviewCount} ratings
+                    {data.reviewCount ?? 0} ratings
                   </p>
                 </div>
               </div>
@@ -173,11 +173,11 @@ export const ProductView = ({ productId, tenantSlug }: ProductViewProps) => {
                         {stars} {stars === 1 ? "star" : "stars"}
                       </div>
                       <Progress
-                        value={data.ratingDistribution[stars]}
+                        value={data.ratingDistribution[stars] ?? 0}
                         className="h-[1lh]"
                       />
                       <div className="font-medium">
-                        {data.ratingDistribution[stars]}%
+                        {data.ratingDistribution[stars] ?? 0}%
                       </div>
                     </Fragment>
                   ))}

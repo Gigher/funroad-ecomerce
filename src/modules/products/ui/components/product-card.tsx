@@ -63,7 +63,7 @@ export const ProductCard = ({
             <div className="flex items-center gap-1">
               <StarIcon className="size-3.5 fill-black" />
               <p className="text-sm font-medium">
-                {reviewRating !== 0
+                {reviewCount > 0
                   ? `${reviewRating} (${reviewCount})`
                   : "No reviews"}
               </p>
