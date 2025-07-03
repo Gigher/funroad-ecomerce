@@ -23,11 +23,7 @@ export const ProductView = ({ productId }: Props) => {
   return (
     <div className="min-h-screen bg-white">
       <nav className="p-4 bg-[#f4f4f0] w-full border-b">
-        <Link
-          prefetch
-          href="/library"
-          className="flex items-center gap-2"
-        >
+        <Link prefetch href="/library" className="flex items-center gap-2">
           <ArrowLeftIcon className="size-4" />
           <span className="font-medium">Back to Library</span>
         </Link>
@@ -39,7 +35,6 @@ export const ProductView = ({ productId }: Props) => {
       </header>
       <section className="max-w-(--breakpoint-xl) mx-auto px-4 lg:px-12 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-7 gap-4 lg:gap-16">
-
           <div className="lg:col-span-2">
             <div className="p-4 bg-white rounded-md border gap-4">
               <ReviewSidebar productId={productId} />
@@ -47,9 +42,14 @@ export const ProductView = ({ productId }: Props) => {
           </div>
 
           <div className="lg:col-span-5">
-            <p className="font-medium italic text-muted-foreground">No special content</p>
+            {data.content ? (
+              <p>{data.content}</p>
+            ) : (
+              <p className="font-medium italic text-muted-foreground">
+                No special content
+              </p>
+            )}
           </div>
-
         </div>
       </section>
     </div>
