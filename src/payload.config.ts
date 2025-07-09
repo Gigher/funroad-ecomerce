@@ -31,8 +31,8 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     components: {
-      beforeNavLinks: ["@/components/stripe-verify#StripeVerify"]
-    }
+      beforeNavLinks: ["@/components/stripe-verify#StripeVerify"],
+    },
   },
   collections: [
     Users,
@@ -44,8 +44,8 @@ export default buildConfig({
     Orders,
     Reviews,
   ],
-  cookiePrefix: "funroad",
   editor: lexicalEditor(),
+  cookiePrefix: "funroad",
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
@@ -58,7 +58,7 @@ export default buildConfig({
     payloadCloudPlugin(),
     multiTenantPlugin<Config>({
       collections: {
-        products: {},
+        products: {}
       },
       tenantsArrayField: {
         includeDefaultField: false,
