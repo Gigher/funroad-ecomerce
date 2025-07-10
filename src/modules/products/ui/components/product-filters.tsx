@@ -38,7 +38,7 @@ export const ProductFilters = () => {
   const [filters, setFilters] = useProductFilters();
 
   const hasAnyFilters = Object.entries(filters).some(([key, value]) => {
-    if (key === "sort") false;
+    if (key === "sort") return false;
 
     if (Array.isArray(value)) {
       return value.length > 0;

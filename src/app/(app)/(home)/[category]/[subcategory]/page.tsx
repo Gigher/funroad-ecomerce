@@ -13,6 +13,8 @@ interface Props {
   }>;
 }
 
+export const dynamic = "force-dynamic";
+
 const Page = async ({ params }: Props) => {
   const { subcategory, searchParams } = await params;
 
