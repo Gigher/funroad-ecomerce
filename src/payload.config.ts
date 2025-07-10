@@ -31,7 +31,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     components: {
-      beforeNavLinks: ["@/components/stripe-verify#StripeVerify"],
+      beforeNavLinks: ["@/components/stripe-verify#StripeVerify"], // Component format: path/to/component#componentAlias
     },
   },
   collections: [
@@ -58,7 +58,7 @@ export default buildConfig({
     payloadCloudPlugin(),
     multiTenantPlugin<Config>({
       collections: {
-        products: {}
+        products: {},
       },
       tenantsArrayField: {
         includeDefaultField: false,
