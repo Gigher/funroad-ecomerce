@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { BookmarkCheckIcon, ListFilterIcon, SearchIcon } from "lucide-react";
 
@@ -10,13 +10,24 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 import { CategoriesSidebar } from "./categories-sidebar";
+import { useProductFilters } from "@/modules/products/hooks/use-product-filters";
 
 interface Props {
   disabled?: boolean;
 }
 
 export const SearchInput = ({ disabled }: Props) => {
+  const [filters, setFilters] = useProductFilters();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState(filters.search);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setFilters({ search: searchValue });
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchValue, setFilters]);
 
   const trpc = useTRPC();
   const session = useQuery(trpc.auth.session.queryOptions());
@@ -30,6 +41,8 @@ export const SearchInput = ({ disabled }: Props) => {
           className="pl-8"
           placeholder="Search products"
           disabled={disabled}
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
         />
       </div>
 
@@ -44,7 +57,7 @@ export const SearchInput = ({ disabled }: Props) => {
       {session.data?.user && (
         <Button asChild variant="elevated">
           <Link prefetch href="/library">
-            <BookmarkCheckIcon/>
+            <BookmarkCheckIcon />
             Library
           </Link>
         </Button>

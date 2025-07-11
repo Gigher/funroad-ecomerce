@@ -33,8 +33,8 @@ export const productsRouter = createTRPCRouter({
       if (product.isArchived) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "Product not found"
-        })
+          message: "Product not found",
+        });
       }
 
       let isPurchased = false;
@@ -121,6 +121,7 @@ export const productsRouter = createTRPCRouter({
       z.object({
         cursor: z.number().default(1),
         limit: z.number().default(DEFAULT_LIMIT),
+        search: z.string().nullable().optional(),
         subcategorySlug: z.string().nullable().optional(),
         minPrice: z.string().nullable().optional(),
         maxPrice: z.string().nullable().optional(),
@@ -132,8 +133,8 @@ export const productsRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const where: Where = {
         isArchived: {
-          not_equals: true
-        }
+          not_equals: true,
+        },
       };
       let sort: Sort = "-createdAt";
 
@@ -172,10 +173,10 @@ export const productsRouter = createTRPCRouter({
         // If we are loading products for public storefront (no tenantSlug)
         // Make sure to not load products set to "isPrivate: true" (using reverse not_equals logic)
         // This products are exclusively private to the tenant store
-        
+
         where["isPrivate"] = {
-          not_equals: true
-        }
+          not_equals: true,
+        };
       }
 
       if (input.subcategorySlug) {
@@ -219,6 +220,12 @@ export const productsRouter = createTRPCRouter({
       if (input.tags && input.tags.length > 0) {
         where["tags.name"] = {
           in: input.tags,
+        };
+      }
+
+      if (input.search) {
+        where["name"] = {
+          like: input.search,
         };
       }
 
